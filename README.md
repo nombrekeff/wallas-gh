@@ -1,4 +1,4 @@
-# project-bot
+# better-issues
 
 Do you like the idea of [GitHub's Project Automation feature](https://github.com/blog/2458-keep-your-project-boards-up-to-date-automatically) but find it lacking? It will only add a new Issue or Pull Request once you have manually assigned it to a Project. 
 
