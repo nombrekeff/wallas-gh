@@ -1,2 +1,5 @@
-
+*.pem
 .env
+.env.copy
+.env_setup
+/node_modules

@@ -1,31 +1,50 @@
 {
-  "name": "project-bot",
-  "version": "2.0.5",
-  "description": "Add new Issues and PullRequests to a GitHub Project Board",
-  "main": "src/index.js",
+  "name": "better-issues",
+  "version": "1.0.0",
+  "description": "A Probot app",
+  "author": "nombrekeff <manoloedge96@gmail.com>",
+  "license": "ISC",
+  "repository": "https://github.com//better-issues.git",
+  "homepage": "https://github.com//better-issues",
+  "bugs": "https://github.com//better-issues/issues",
+  "keywords": [
+    "probot",
+    "github",
+    "probot-app"
+  ],
   "scripts": {
-    "start": "probot run ./src/index.js",
-    "test": "standard --fix"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/philschatz/project-bot.git"
-  },
-  "author": "Philip Schatz",
-  "bugs": {
-    "url": "https://github.com/philschatz/project-bot/issues"
-  },
-  "homepage": "https://github.com/philschatz/project-bot#readme",
-  "now": {
-    "alias": "project-bot",
-    "dotenv": ".env"
+    "dev": "nodemon",
+    "start": "probot run ./index.js",
+    "lint": "standard --fix",
+    "test": "jest && standard",
+    "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
-    "commonmark": "^0.28.1",
-    "probot": "^6.1.0"
+    "probot": "^7.2.0"
   },
   "devDependencies": {
-    "smee-client": "^1.0.1",
-    "standard": "^11.0.1"
+    "jest": "^22.4.3",
+    "nock": "^10.0.0",
+    "nodemon": "^1.17.2",
+    "smee-client": "^1.0.2",
+    "standard": "^10.0.3"
+  },
+  "engines": {
+    "node": ">= 8.3.0"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  },
+  "nodemonConfig": {
+    "exec": "npm start",
+    "watch": [
+      ".env",
+      "."
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
