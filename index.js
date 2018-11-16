@@ -6,14 +6,14 @@ module.exports = app => {
     app.log('Issue opened')
 
     const comment = context.issue({ body: 'Thanks for opening this issue! \nWe will check it ASAP.' })
-    const labels = context.issue({ labels: [{ name: 'bug' }] })
+    // const labels = context.issue({ labels: [{ name: '' }] })
 
     context.github.issues.createComment(comment)
     context.github.issues.addLabels(labels)
   })
 
-  app.on('tags.create', async context => {
-    app.log('tag create', context)
+  app.on('push', async context => {
+    app.log('on push', context)
   })
 
   // app.on('issues.labeled', async ({ issue, label }) => {
