@@ -3,10 +3,6 @@ class Action {
     this.args = args
     this.name = name
     this.fn = fn
-
-    // console.log("\nAction args: ", args)
-    // console.log("Action name: ", name)
-    // console.log("Action fn  : ", fn)
   }
 }
 

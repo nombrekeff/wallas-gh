@@ -1,5 +1,5 @@
 const actions = require('./actions')
-const check = require('./check')
+const checks = require('./checks')
 
 class Event {
   constructor(name, args, fn) {
@@ -8,7 +8,7 @@ class Event {
     this.meta = this.fn.meta
 
     this.event_name = null
-    this.props = {}
+    // this.props = {}
     this.actions = []
     this.checks = []
 
@@ -28,11 +28,11 @@ class Event {
       // console.log("argsProp: ", argsProp)
 
       switch (propMeta) {
-        case 'prop':
-          this.props[key] = argsProp
-          break
         case 'check':
-          this.checks.push(new checks.Check(argsProp))
+          for (let check of argsProp) {
+            let key = Object.getOwnPropertyNames(check).shift()
+            this.checks.push(checks.get(check[key], key))
+          };
           break
         case 'action':
           for (let act of argsProp) {
@@ -45,7 +45,7 @@ class Event {
 
     console.log('act: ', this.actions);
     console.log('chk: ', this.checks);
-    console.log('prp: ', this.props);
+    // console.log('prp: ', this.props);
   }
 
   _getActionFactory() {
@@ -70,7 +70,6 @@ module.exports = (function () {
   onPushTo.meta = {
     github_event: 'push',
     props: {
-      branch: 'prop',
       check: 'check',
       do: 'action'
     }
