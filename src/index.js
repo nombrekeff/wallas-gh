@@ -9,6 +9,7 @@ const getConfig = require('probot-config')
 const octokit = require('@octokit/rest')()
 
 const parser = new (require('./parser.js'))()
+const Settings = require('./settings.js')
 
 
 /**
