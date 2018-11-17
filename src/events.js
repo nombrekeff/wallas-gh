@@ -48,18 +48,37 @@ class Event {
     // console.log('prp: ', this.props);
   }
 
-  _getActionFactory() {
-    return async (context) => {
-      // Perform actions and cheks
+  /**
+   * @param {probot.Application} robot 
+   * @param {probot.Context} context 
+   */
+  performChecks(robot, context) {
+    for (let check of this.checks) {
+      check.test(robot, context)
     }
   }
 
   /**
-   * @param {probot.Context} context 
+   * @param {probot.Application} robot 
+   */
+  _getActionFactory(robot) {
+    return async (context) => {
+      // Perform actions and checks
+      let check = this.performChecks(robot, context)
+      if (check.error) {
+        robot.log.error(check.error)
+      } else {
+        this.performActions()
+      }
+    }
+  }
+
+  /**
+   * @param {probot.Application} robot 
    */
   setup(robot) {
     robot.log('Setting up event: ' + this.event_name)
-    robot.on(this.event_name, this._getActionFactory())
+    robot.on(this.event_name, this._getActionFactory(robot))
   }
 }
 
