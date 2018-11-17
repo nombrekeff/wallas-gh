@@ -33,7 +33,6 @@ const main = async (robot) => {
       prog = parser.parse(config, robot, context)
       prog.start()
     } else if (prog) {
-      // prog.
     }
   })
 }
