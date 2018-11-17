@@ -28,12 +28,12 @@ const main = async (robot) => {
         commit.modified.includes(Settings.FILE_NAME)
     })
 
-    if (settingsModified) {
+    if (true || settingsModified) {
       robot.log('Settings modified, res-parsing')
       prog = parser.parse(config, robot, context)
       prog.start()
     } else if (prog) {
-      // prog.
+      // prog.reset()
     }
   })
 }

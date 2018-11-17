@@ -16,8 +16,8 @@ class Check {
    * @param {probot.Application} robot 
    * @param {probot.Context} context 
    */
-  check(robot, context) {
-    return this.fn.apply(this, context, args, robot)
+  test(robot, context) {
+    return this.fn.apply(context, this.args, robot)
   }
 }
 
