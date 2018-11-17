@@ -29,7 +29,7 @@ const main = async (robot) => {
 
     if (settingsModified) {
       robot.log('Settings modified, res-parsing')
-      let prog = parser.parse(config, context)
+      let prog = parser.parse(config, robot, context)
       prog.start()
     }
   })
