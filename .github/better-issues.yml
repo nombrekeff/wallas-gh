@@ -9,7 +9,6 @@ on_push_to:
     - version: patch dev
     - create: tag {version}
     - create: label {version} 
-
     
 # periodically
 # peridically:                          

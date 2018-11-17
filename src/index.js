@@ -16,6 +16,7 @@ const Settings = require('./settings.js')
  * @param {probot.Application} robot 
  */
 const main = async (robot) => {
+  let prog;
   robot.on('push', async (context/**@type {probot.Context}*/) => {
 
     const payload = context.payload
@@ -29,8 +30,10 @@ const main = async (robot) => {
 
     if (settingsModified) {
       robot.log('Settings modified, res-parsing')
-      let prog = parser.parse(config, robot, context)
+      prog = parser.parse(config, robot, context)
       prog.start()
+    } else if (prog) {
+      // prog.
     }
   })
 }
