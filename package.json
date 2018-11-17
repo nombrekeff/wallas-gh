@@ -14,13 +14,15 @@
   ],
   "scripts": {
     "dev": "nodemon",
-    "start": "probot run ./index.js",
+    "start": "probot run ./src/index.js",
     "lint": "standard --fix",
     "test": "jest && standard",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
-    "probot": "^7.2.0"
+    "probot": "^7.2.0",
+    "probot-config": "^0.2.0",
+    "yaml": "^1.0.2"
   },
   "devDependencies": {
     "jest": "^22.4.3",
