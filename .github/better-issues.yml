@@ -10,18 +10,18 @@ on_push_to:
     - create: label {version} 
 
 # periodically
-peridically:                          
-  each: 10d                            # Each 10 days do a series of actions
-  do: 
-    - check:                           # Perform a check before doing any action
-        tag:                           # Check all tags
-          matches: -dev$               # In this case we check all issues that have -dev suffix.
-          has_had_issues: false        # And if it has had no issues. 
-        then:                          # This will be run if it passes check      
-          - delete_tag: this  
-          - delete_label: this   
-          - version: update rc
-          - create: tag {version}
-          - create: label {version} 
+# peridically:                          
+#   each: 10d                            # Each 10 days do a series of actions
+#   do: 
+#     - check:                           # Perform a check before doing any action
+#         tag:                           # Check all tags
+#           matches: -dev$               # In this case we check all issues that have -dev suffix.
+#           has_had_issues: false        # And if it has had no issues. 
+#         then:                          # This will be run if it passes check      
+#           - delete_tag: this  
+#           - delete_label: this   
+#           - version: update rc
+#           - create: tag {version}
+#           - create: label {version} 
 
     

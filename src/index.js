@@ -1,25 +1,35 @@
 
 // For more information on building apps:
 // https://probot.github.io/docs/
-const probot = require('probot');
+const probot = require('probot')
 const getConfig = require('probot-config')
 
 // To get your app running against GitHub, see:
 // https://probot.github.io/docs/development/
-// const octokit = require('octokit');
+const octokit = require('@octokit/rest')()
 
-// Lib
-const actions = require('./actions')
-const check = require('./check')
-const events = require('./events')
+const parser = new (require('./parser.js'))()
 
 
 /**
  * @param {probot.Application} robot 
  */
-const main = (robot) => {
-  const config = await getConfig(context, 'better-issues.yml')
-  robot.log(config)
+const main = async (robot) => {
+  robot.on('push', async (context/**@type {probot.Context}*/) => {
+    const config = await getConfig(context, 'better-issues.yml')
+    robot.log(config)
+
+    const settingsModified = payload.commits.find(commit => {
+      return commit.added.includes(Settings.FILE_NAME) ||
+        commit.modified.includes(Settings.FILE_NAME)
+    })
+
+    if (settingsModified) {
+      robot.log('Settings modified, res-parsing')
+      let prog = parser.parse(config, context)
+      prog.start()
+    }
+  })
 }
 
 
