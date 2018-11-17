@@ -16,6 +16,8 @@ const parser = new (require('./parser.js'))()
  */
 const main = async (robot) => {
   robot.on('push', async (context/**@type {probot.Context}*/) => {
+
+    const payload = context.payload
     const config = await getConfig(context, 'better-issues.yml')
     robot.log(config)
 
