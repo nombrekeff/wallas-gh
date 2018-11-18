@@ -2,13 +2,12 @@ const actions = require('./actions')
 const checks = require('./checks')
 
 class Event {
-  constructor(name, args, fn) {
+  constructor(name, args, opts) {
     this.name = name
-    this.fn = fn
-    this.meta = this.fn.meta
+    this.opts = opts
+    this.meta = this.opts.meta
 
     this.event_name = null
-    // this.props = {}
     this.actions = []
     this.checks = []
 
@@ -21,30 +20,37 @@ class Event {
     console.log("args: ", args)
 
     for (let key in args) {
-      let propMeta = props[key]
       let argsProp = args[key]
-      // console.log("\nKey: ", key)
-      // console.log("propMeta: ", propMeta)
-      // console.log("argsProp: ", argsProp)
+      console.log("\nKey: ", key)
+      console.log("argsProp: ", argsProp)
 
-      switch (propMeta) {
-        case 'check':
-          for (let check of argsProp) {
+      let actionEnt = new actions.Action(key, [], []);
+      if (key === 'do') {
+        if (argsProp.if) {
+          for (let check of argsProp.if) {
             let key = Object.getOwnPropertyNames(check).shift()
-            this.checks.push(checks.get(check[key], key))
-          };
-          break
-        case 'action':
-          for (let act of argsProp) {
-            let key = Object.getOwnPropertyNames(act).shift()
-            this.actions.push(actions.get(act[key], key))
-          };
-          break
+            actionEnt.checks.push(checks.get(check[key], key))
+          }
+        }
+        if (argsProp.this) {
+          for (let action of argsProp.this) {
+            let key = Object.getOwnPropertyNames(action).shift()
+            actionEnt.actions.push(actions.get(action[key], key))
+          }
+        }
+
+        if (argsProp.length) {
+          for (let action of argsProp) {
+            let key = Object.getOwnPropertyNames(action).shift()
+            actionEnt.actions.push(actions.get(action[key], key))
+          }
+        }
       }
+      this.actions.push(actionEnt)
+      console.log('checks: ', actionEnt.checks);
+      console.log('actions: ', actionEnt.actions);
     }
 
-    console.log('act: ', this.actions);
-    console.log('chk: ', this.checks);
     // console.log('prp: ', this.props);
   }
 
@@ -60,15 +66,26 @@ class Event {
 
   /**
    * @param {probot.Application} robot 
+   * @param {probot.Context} context 
+   */
+  performActions(robot, context) {
+    for (let action of this.actions) {
+      robot.log('Performing action: ', action)
+      action.perform(robot, context)
+    }
+  }
+
+  /**
+   * @param {probot.Application} robot 
    */
   _getActionFactory(robot) {
     return async (context) => {
       // Perform actions and checks
       let check = this.performChecks(robot, context)
-      if (check.error) {
+      if (check && check.error) {
         robot.log.error(check.error)
       } else {
-        this.performActions()
+        this.performActions(robot, context)
       }
     }
   }
@@ -83,27 +100,54 @@ class Event {
 }
 
 module.exports = (function () {
-  const onPushTo = async (context) => {
-
+  const onPushTo = {
+    meta: {
+      github_event: 'push',
+      props: {
+        do: 'action'
+      },
+      defaults: {}
+    }
   }
-  onPushTo.meta = {
-    github_event: 'push',
-    props: {
-      check: 'check',
-      do: 'action'
+
+  const onTag = {
+    meta: {
+      github_event: 'create',
+      props: {
+        do: 'action'
+      },
+      defaults: {
+        check: [
+          { ref: 'ref/tags' }
+        ]
+      }
     }
   }
 
   const events = {
-    names: [
-      'on_push_to'
-    ],
-    map: { on_push_to: onPushTo }
+    on_push_to: onPushTo,
+    on_tag: onTag,
+  }
+
+  /**
+   * @param {string} name
+   * @return {object}
+   */
+  events.getDefault = (name) => {
+    return events[name].meta ? events[name].meta.defaults : {}
   }
 
   events.get = (name, args) => {
-    if (events.names.includes(name)) {
-      return new Event(name, args, events.map[name])
+    if (name in events) {
+      let defArgs = events.getDefault(name)
+      // console.log(name)
+      // console.log(defArgs)
+      // console.log(args)
+
+      args = Object.assign(defArgs, args)
+      // console.log(args)
+
+      return new Event(name, args, events[name])
     }
   }
 

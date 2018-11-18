@@ -1,21 +1,14 @@
-const Diffable = require('./diffable')
-const previewHeaders = { accept: 'application/vnd.github.symmetra-preview+json' }
+const probot = require('probot')
 
-module.exports = class Labels extends Diffable {
-  constructor(...args) {
-    super(...args)
+module.exports = class Labels {
 
-    if (this.entries) {
-      this.entries.forEach(label => {
-        // Force color to string since some hex colors can be numerical (e.g. 999999)
-        if (label.color) {
-          label.color = String(label.color)
-          if (label.color.length < 6) {
-            label.color.padStart(6, '0')
-          }
-        }
-      })
-    }
+  /**
+   * @param {probot.Application} robot 
+   * @param {probot.Context} context 
+   */
+  constructor(robot, context) {
+    this.github = context.github
+    this.repo = context.repo
   }
 
   find() {

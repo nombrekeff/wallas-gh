@@ -3,13 +3,26 @@
 # On push to branch dev, patch version then create a tag with -dev suffix, 
 # and create a label for that version
 on_push_to:
-  check: 
-    - branch: dev
   do: 
-    - version: patch dev
-    - create: tag {version}
-    - create: label {version} 
-
+    this: 
+      - version: patch dev
+      - create: tag
+      - create: label
+    if: 
+      - branch: test
+# When a tag is created create a label for that tag
+# on_tag:
+#   do:
+#     - create: 
+#         what: label 
+#         name: "{owner}:{tag}"
+#         description: "some desciption"
+#     - create: 
+#         what: issue
+#         title: Here goes a title
+#         body: "Created new tag"
+#         labels:
+#           - bug
     
 # periodically
 # peridically:                          

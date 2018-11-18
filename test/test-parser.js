@@ -16,5 +16,5 @@ let prog = parser.parse(cfig, {
 }, {});
 
 
-console.log(prog);
+// console.log(JSON.stringify(prog, null, 2));
 prog.start();

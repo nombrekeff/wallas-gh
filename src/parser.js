@@ -18,10 +18,11 @@ module.exports = class Parser {
     const program = new Program(context, robot)
 
     let objEvents = Object.keys(object)
-    console.log(objEvents)
+    // console.log(objEvents)
+
 
     if (objEvents.length > 0) {
-      objEvents.filter(name => events.names.includes(name))
+      objEvents.filter(name => (name in events))
         .map(name => ({ name, args: object[name] }))
         .forEach(({ name, args }) => {
           console.log('Event ' + name + ' args: ', args)

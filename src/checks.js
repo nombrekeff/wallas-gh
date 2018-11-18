@@ -17,7 +17,7 @@ class Check {
    * @param {probot.Context} context 
    */
   test(robot, context) {
-    return this.fn.apply(context, this.args, robot)
+    return this.fn(context, this.args, robot)
   }
 }
 
@@ -32,10 +32,17 @@ const checks = {
   }
 }
 
-checks.register('branch', async (context, args, robot) => {
-  robot.log('Check branch: ', args)
-  robot.log('Repo: ', context.payload.repository)
-})
+/**
+ * check for branch name 
+ */
+checks.register('branch',
+  ({ payload }, branch) => payload.ref === `refs/head/${branch}`)
+
+/**
+ * check ref
+ */
+checks.register('ref',
+  ({ payload }, ref) => payload.ref.includes(ref))
 
 module.exports = {
   Check,
