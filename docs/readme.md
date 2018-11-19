@@ -3,15 +3,28 @@
 
 **Overview**
 ```yml
-event:
-  - filter:
-  ...
-  - filter:
-  ...
-  - filter:
-      check: <value>
+vars:
+  color: ff2244
+  
+defs:
+  createLbl: 
+     - create: 
+        what: label
+        name: $1
+        color: <color>
+        
+on_push:
+  - branch:
+      matches: dev
       do: 
-        - action: <action>
+        - create: 
+            what: tag
+            type: patch
+            suffix: dev
+
+on_tag:
+  do: 
+    - createLbl: latest
 ```
 
 ## Index
