@@ -115,11 +115,22 @@ on_push:
   4.1. Inside we tell to create a new release for latest version
 
 ### Available Fiters
+All filters accept a series of checks defined below:
   * `branch`
   * `commit`
   * `ref`
   * `owner`
   * `branch`
+
+#### Available Checks
+  * `is` `<any>` checks if the value is type (if filter accepts a type)
+  * `matches` `<string>` checks if the value matches the pattern passed 
+  * `equals` `<any>` checks if the value is exactly what is passed 
+  * `one_of` `<any[]>` checks if the one of the values match 
+  * `all_of` `<any[]>` checks if the all of the values match 
+  * `some_of` `<any[]>` checks if the some of the values match 
+
+
 
 ## Actions
 Actions are the way of telling wallas what to do, for example **create an issue**, **reply to an issue comment**, **etc**.
