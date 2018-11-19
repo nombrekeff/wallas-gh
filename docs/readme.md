@@ -116,11 +116,16 @@ on_push:
 
 ### Available Fiters
 All filters accept a series of checks defined below:
+
+Global filters:
   * `branch`
   * `commit`
   * `ref`
   * `owner`
   * `branch`
+
+Filters for `on_issues`:
+  * `status` one of: [`opened` , `edited` , `deleted` , `transferred` , `closed` , `reopened` , `assigned` , `unassigned` , `labeled` , `unlabeled` , `milestoned` , or `demilestoned`]
 
 #### Available Checks
   <!-- * `is` `<any>` checks if the value is type (if filter accepts a type) -->
@@ -129,6 +134,8 @@ All filters accept a series of checks defined below:
   * `one_of` `<any[]>` checks if the one of the values match 
   * `all_of` `<any[]>` checks if the all of the values match 
   * `some_of` `<any[]>` checks if the some of the values match 
+
+
 
 
 
