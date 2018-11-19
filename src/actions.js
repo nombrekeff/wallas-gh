@@ -17,7 +17,9 @@ class Action {
    * @param {probot.Context} context 
    */
   perform(robot, context) {
-
+    this.actions.forEach(a => {
+      a.perform(robot, context)
+    })
   }
 }
 
@@ -82,6 +84,22 @@ const actions = {
     });
 
     return context.github.issues.create(issue);
+  },
+
+  /**
+   * @param {probot.Context} context 
+   */
+  async closeIssue(context, args, robot) {
+    const params = {
+      owner: context.payload.repository.owner.login,
+      repo: context.payload.repository.name,
+      number: args.issue
+    }
+    return context.github.issues.edit({
+      ...params,
+      state: 'closed',
+      comment: args.comment
+    })
   }
 }
 
@@ -138,6 +156,20 @@ actions.register('create', async (context, args = {}, robot) => {
   }
 })
 
+actions.register('close', async (context, args = {}, robot) => {
+
+  let what = args.what,
+    comment = args.comment
+
+  if (typeof args === 'string') {
+    let spl = args.split(' ')
+    what = spl[0]
+    comment = spl[1]
+  }
+
+  robot.log('close', { what, comment, args })
+  await actions.closeIssue(context, { issue: what, comment, args }, robot)
+})
 
 module.exports = {
   Action,

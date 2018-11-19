@@ -1,20 +1,16 @@
 const probot = require('probot');
-const parser = new (require('../src/parser'))()
+const wallas = require('../lib/wallas')
 
 const YAML = require('yaml');
 const fs = require('fs');
 
 
-const file = fs.readFileSync('./.github/better-issues.yml', 'utf8');
+const file = fs.readFileSync('C:\\Users\\keff\\Desktop\\cosas\\Dev\\LibsJS\\dummy-repo\\.github\\better-issues.yml', 'utf8');
 let cfig = YAML.parse(file);
 
-let prog = parser.parse(cfig, {
+let prog = wallas({
   log: console.log,
   on(evt) {
     this.log('on: ' + evt);
   }
-}, {});
-
-
-// console.log(JSON.stringify(prog, null, 2));
-prog.start();
+}, {}, cfig);
