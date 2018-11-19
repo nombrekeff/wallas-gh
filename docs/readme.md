@@ -123,9 +123,9 @@ All filters accept a series of checks defined below:
   * `branch`
 
 #### Available Checks
-  * `is` `<any>` checks if the value is type (if filter accepts a type)
+  <!-- * `is` `<any>` checks if the value is type (if filter accepts a type) -->
+  * `is` `<any>` checks if the value is exactly what is passed 
   * `matches` `<string>` checks if the value matches the pattern passed 
-  * `equals` `<any>` checks if the value is exactly what is passed 
   * `one_of` `<any[]>` checks if the one of the values match 
   * `all_of` `<any[]>` checks if the all of the values match 
   * `some_of` `<any[]>` checks if the some of the values match 
