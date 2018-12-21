@@ -37,8 +37,8 @@ like **autoclosing issues**, **autoasigning issues**, **automatic releases** to 
 It's all configured from a **YAML** config file that lives at `.github/wallas.yml` in your project, where you will configure a series of [Events](#events) and [Actions](#actions).  
 Here is a basic example: 
 ```yml
-# on create event check if reference is tag
-# if so, the we create a new label for that tag
+# on create event check if ref is a tag
+# if so, create a new label for that tag
 on_create:
   - match:
       ref: tag
