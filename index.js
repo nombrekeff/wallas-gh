@@ -9,18 +9,21 @@ const wallas = require('./lib/wallas')
  * @param {probot.Application} robot 
  */
 const main = async (robot) => {
-  let prog;
+  let prog
+  console.log("Up and runnning...");
   robot.on('push', async (context /**@type {probot.Context}*/) => {
     const payload = context.payload
     const config = await getConfig(context, 'better-issues.yml')
-    robot.log(config)
+    robot.log(payload.commits)
 
     const settingsModified = payload.commits.find(commit => {
-      return commit.added.includes('better-issue.yml') ||
-        commit.modified.includes('better-issue.yml')
+      return commit.added.includes('.github/better-issues.yml') ||
+        commit.modified.includes('.github/better-issues.yml')
     })
+    robot.log('Modified: ' + settingsModified)
 
-    if (true || settingsModified) {
+    
+    if (settingsModified) {
       wallas(robot, context, config)
     } else if (prog) { }
   })
