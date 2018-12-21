@@ -3,15 +3,25 @@
 
 **Overview**
 ```yml
-event:
-  - filter:
-  ...
-  - filter:
-  ...
-  - filter:
-      check: <value>
+color: ff2244
+createLabel: 
+  - create: 
+    what: label
+    name: $0
+    color: .color
+    
+on_push:
+  - branch:
+      matches: dev
       do: 
-        - action: <action>
+        - create: 
+            what: tag
+            type: patch
+            suffix: dev
+
+on_tag:
+  do: 
+    - .createLbl: <tags.latest>
 ```
 
 ## Index
@@ -33,13 +43,14 @@ Here is a basic example:
 ```yml
 # 
 on_create:
-  - ref: 
-      is: tag
-      do: 
-        - create: 
-            what: label 
-            name: {tag.version}
-            color: 
+  - match:
+      ref: 
+        is: tag
+    do: 
+      - create: 
+          what: label 
+          name: <tag.name>
+          color: ffddee
 ```
 
 
@@ -70,12 +81,13 @@ on_delete:
   ...
 on_issues:
   # List of filters, see Filtering further down
-  - status:
+  - match:
+    status:
       is: opened
-      do:
-        - create:
-            what: issue_comment
-            body: Hey thanks for leaving an issue, we will check it!
+    do:
+      - create:
+          what: issue_comment
+          body: Hey thanks for leaving an issue, we will check it!
 ```
 
 ## Filtering
@@ -102,11 +114,29 @@ on_push:
   4.1. Inside we tell to create a new release for latest version
 
 ### Available Fiters
+All filters accept a series of checks defined below:
+
+Global filters:
   * `branch`
   * `commit`
   * `ref`
   * `owner`
   * `branch`
+
+Filters for `on_issues`:
+  * `status` one of: [`opened` , `edited` , `deleted` , `transferred` , `closed` , `reopened` , `assigned` , `unassigned` , `labeled` , `unlabeled` , `milestoned` , or `demilestoned`]
+
+#### Available Checks
+  <!-- * `is` `<any>` checks if the value is type (if filter accepts a type) -->
+  * `is` `<any>` checks if the value is exactly what is passed 
+  * `matches` `<string>` checks if the value matches the pattern passed 
+  * `one_of` `<any[]>` checks if the one of the values match 
+  * `all_of` `<any[]>` checks if the all of the values match 
+  * `some_of` `<any[]>` checks if the some of the values match 
+
+
+
+
 
 ## Actions
 Actions are the way of telling wallas what to do, for example **create an issue**, **reply to an issue comment**, **etc**.
@@ -170,3 +200,26 @@ vars:
 [gh-events]: https://developer.github.com/webhooks/#events 
 <!-- Wallas -->
 <!-- Wilbur -->
+
+## Contributing
+
+If you have suggestions for how **wallas** could be improved, or want to report a bug, [open an issue]()! We'd love all and any contributions.
+
+For more, check out the [Contributing Guide](CONTRIBUTING.md).
+
+## Setup 
+
+```sh
+# clone
+git clone git@github.com:nombrekeff/wallas.git
+
+# Install dependencies
+npm install
+
+# Run the bot
+npm start
+```
+
+## License
+
+[ISC](LICENSE) © 2018 nombrekeff <manoloedge96@gmail.com>

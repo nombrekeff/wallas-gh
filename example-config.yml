@@ -115,3 +115,11 @@ on_issue:
         - body: Hey, thanks for reporting, we will be adding it soon!
     - addLabel:
         - name: topic:events
+
+
+on_issue:
+  # check branch           
+  - if: owner: is: nombrekeff
+    do: 
+      - addLabel:
+          name: keffs 
