@@ -5,7 +5,7 @@ on_push:
       - create:
           what: issue
           title: A test issue
-          body: Asdasdaddasd as das dasdasdada **by** > @{payload.sender.login}
+          body: A test issue **by** @{payload.sender.login}
           labels: 
             - bug
             - duplicate
