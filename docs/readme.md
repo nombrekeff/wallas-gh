@@ -4,34 +4,30 @@
 **Overview**
 ```yml
 color: ff2244
-createLabel: 
-  - create: 
-    what: label
-    name: $0
-    color: .color
-    
-on_push:
-  - branch:
-      matches: dev
-      do: 
-        - create: 
-            what: tag
-            type: patch
-            suffix: dev
 
-on_tag:
-  do: 
-    - .createLbl: <tags.latest>
+on_push:                   
+  - match:         
+      branch: master
+      sender: nombrekeff
+    do:
+      - create:
+          what: issue
+          title: A test issue
+          body: A test issue **by** @{payload.sender.login}
+          labels: 
+            - bug
+            - duplicate
 ```
 
 ## Index
   - [Description](#initial-description)
   - [Events](#events)
-  - [Filtering](#filtering)
   - [Actions](#actions)
+  - [Matchers](#matchers)
+  - [Doers](#doers)
   - [Functions](#functions)
   - [Variables](#variables)
-  - [Posibilities](#posibilities)
+  <!-- - [Posibilities](#posibilities) -->
 
 ## Description
 Hey there ✌️, let me explain a bit what **wallas** is,  
@@ -41,21 +37,22 @@ like **autoclosing issues**, **autoasigning issues**, **automatic releases** to 
 It's all configured from a **YAML** config file that lives at `.github/wallas.yml` in your project, where you will configure a series of [Events](#events) and [Actions](#actions).  
 Here is a basic example: 
 ```yml
-# 
+# on create event check if reference is tag
+# if so, the we create a new label for that tag
 on_create:
   - match:
-      ref: 
-        is: tag
+      ref: tag
     do: 
       - create: 
           what: label 
-          name: <tag.name>
+          name: "@{payload.ref.tag_name}"
           color: ffddee
 ```
 
 
 ## Events
-Events are the main part of the automation cycle, and are the first thing you will define in your config file. You can only define each event once in your config but each event can have multiple actions based on some [filters](#filtering).
+Events are the main part of the automation cycle, and are the first thing you will define in your config file. 
+You can only define each event once in your config but each event can have multiple [actions](#actions).
 
 | name             | description                                                                                                                                                                                                                |
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -69,9 +66,8 @@ Events are the main part of the automation cycle, and are the first thing you wi
 | `on_pull_request`  | Triggered when a pull request is assigned, unassigned, labeled, unlabeled, opened, edited, closed, reopened, or synchronized. Also triggered when a pull request review is requested, or when a review request is removed. |
 
 > **NOTICE**
-> If you are looking for a specific event and its not in the list, 
-> please leave an issue and I will added as soon as posible.
-> _Make sure you check github [event list][gh-events] to make sure it can be handled_
+> If you are looking for a specific event and its not in the list, please leave an issue and I will add it as soon as posible.  
+> _Make sure you check github [event list][gh-events] to make sure it can be handled_  
 
 #### Example:
 ```yml
@@ -82,57 +78,48 @@ on_delete:
 on_issues:
   # List of filters, see Filtering further down
   - match:
-    status:
-      is: opened
+    status: opened
     do:
       - create:
           what: issue_comment
           body: Hey thanks for leaving an issue, we will check it!
 ```
 
-## Filtering
-Filtering is the way of deciding what to do when an event happens, could be compared with an `if` statement.  
-Lets say we want to create a release when we push to branch `release`, we could create the following filter:
+## Matchers
+Matchers are the way of evaluating properties within the event.  
+Lets say we want to check if a push is a release, for taht we would do:
 ```yml
 on_push:
-  - branch:
-      is_oneof: 
-        - release
-        - release-candidate
-      do:
-        # List of actions, see Actions further down for more info
-        - create: release latest
-        # or
-        - create:
-            what: release
-            version: latest
+  - match:
+      branch: release
+    do:
+      # List of actions, see Actions further down for more info
+      - create: release latest
 ```
 1. First we listen for event `on_push`
-2. Then we set a filter for `branch`
-3. Wich check if it is `release`
-4. We set `do`, wich will be processed if check passes  
-  4.1. Inside we tell to create a new release for latest version
+2. Then we add a matcher that checks if pushed ref is a release
+3. Then we set the action we want to perform if matcher is truthy
 
-### Available Fiters
-All filters accept a series of checks defined below:
+### Available Matchers
+All matchers accept a series of checks defined below:
 
-Global filters:
+Available matchers:
   * `branch`
   * `commit`
   * `ref`
   * `owner`
   * `branch`
+  * `status`
 
-Filters for `on_issues`:
+<!-- Matchers for `on_issues`:
   * `status` one of: [`opened` , `edited` , `deleted` , `transferred` , `closed` , `reopened` , `assigned` , `unassigned` , `labeled` , `unlabeled` , `milestoned` , or `demilestoned`]
 
 #### Available Checks
-  <!-- * `is` `<any>` checks if the value is type (if filter accepts a type) -->
   * `is` `<any>` checks if the value is exactly what is passed 
   * `matches` `<string>` checks if the value matches the pattern passed 
   * `one_of` `<any[]>` checks if the one of the values match 
   * `all_of` `<any[]>` checks if the all of the values match 
-  * `some_of` `<any[]>` checks if the some of the values match 
+  * `some_of` `<any[]>` checks if the some of the values match  -->
 
 
 
@@ -185,21 +172,13 @@ defs:
 ## Variables
 You can also set some variables wich can be used anywhere a **String** is expected, by placing inside `<>`.
 Here is an example:
-```yml
-vars: 
-  name:    test-project
-  version: v0.0.1
+```yml 
+name:    test-project
+version: v0.0.1
 
 ...
   what: <name>
 ```
-
-
-## Posibilities
-
-[gh-events]: https://developer.github.com/webhooks/#events 
-<!-- Wallas -->
-<!-- Wilbur -->
 
 ## Contributing
 
@@ -221,5 +200,5 @@ npm start
 ```
 
 ## License
-
 [ISC](LICENSE) © 2018 nombrekeff <manoloedge96@gmail.com>
+[gh-events]: https://developer.github.com/webhooks/#events 
