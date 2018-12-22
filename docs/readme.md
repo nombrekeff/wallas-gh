@@ -113,7 +113,9 @@ Available matchers:
   * `ref`
   * `owner`
   * `branch`
-  * `status`
+  * `status` [`opened` , `edited` , `deleted` , `transferred` , `closed` , `reopened` , `assigned` , `unassigned` , `labeled` , `unlabeled` , `milestoned` , or `demilestoned`]
+  * `body`
+
 
 <!-- Matchers for `on_issues`:
   * `status` one of: [`opened` , `edited` , `deleted` , `transferred` , `closed` , `reopened` , `assigned` , `unassigned` , `labeled` , `unlabeled` , `milestoned` , or `demilestoned`]
