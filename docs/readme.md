@@ -64,6 +64,7 @@ You can only define each event once in your config but each event can have multi
 | `on_issues`        | Triggered when an issue is `opened` , `edited` , `deleted` , `transferred` , `closed` , `reopened` , `assigned` , `unassigned` , `labeled` , `unlabeled` , `milestoned` , or `demilestoned` .                              |
 | `on_issue_comment` | Triggered when an issue comment is created, edited, or deleted.                                                                                                                                                            |
 | `on_pull_request`  | Triggered when a pull request is assigned, unassigned, labeled, unlabeled, opened, edited, closed, reopened, or synchronized. Also triggered when a pull request review is requested, or when a review request is removed. |
+| `on_release`          | Triggered when a release is published.                                                                                                                                                                            |
 
 > **NOTICE**
 > If you are looking for a specific event and its not in the list, please leave an issue and I will add it as soon as posible.  
