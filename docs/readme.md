@@ -3,12 +3,12 @@
 
 **Overview**
 ```yml
-color: ff2244
+sender: nombrekeff
 
 on_push:                   
   - match:         
       branch: master
-      sender: nombrekeff
+      sender: <sender>
     do:
       - create:
           what: issue
@@ -76,9 +76,9 @@ on_push:
 on_delete:
   ...
 on_issues:
-  # List of filters, see Filtering further down
+  # List of matchers, see Matching further down
   - match:
-    status: opened
+      status: opened
     do:
       - create:
           what: issue_comment
@@ -87,7 +87,7 @@ on_issues:
 
 ## Matchers
 Matchers are the way of evaluating properties within the event.  
-Lets say we want to check if a push is a release, for taht we would do:
+Lets say we want to check if the pushed branch is **"release"**, for that we would do:
 ```yml
 on_push:
   - match:

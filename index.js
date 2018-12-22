@@ -24,7 +24,8 @@ const main = async (robot) => {
 
     
     if (settingsModified) {
-      wallas(robot, context, config)
+      delete prog
+      prog = wallas(robot, context, config)
     } else if (prog) { }
   })
 }
