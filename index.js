@@ -9,7 +9,7 @@ const wallas = require('./lib/wallas')
  * @param {probot.Application} robot 
  */
 const main = async (robot) => {
-  let prog
+  let prog = null
   console.log("Up and runnning...");
   robot.on('push', async (context /**@type {probot.Context}*/) => {
     const payload = context.payload
@@ -22,8 +22,8 @@ const main = async (robot) => {
     })
     robot.log('Modified: ' + settingsModified)
 
-    
-    if (settingsModified) {
+
+    if (settingsModified || !prog) {
       delete prog
       prog = wallas(robot, context, config)
     } else if (prog) { }
