@@ -2,6 +2,9 @@
 
 
 # wallas # in-development
+[![Version](https://img.shields.io/github/package-json/v/nombrekeff/wallas.svg)](https://github.com/nombrekeff/wallas)
+[![Build Status](https://travis-ci.com/nombrekeff/wallas.svg?branch=master)](https://travis-ci.com/nombrekeff/wallas)
+
 :octocat: A github automation utility, to help your develpoment process.
 
 **Overview**
