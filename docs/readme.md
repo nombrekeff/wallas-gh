@@ -1,10 +1,10 @@
 [gh-events]: https://developer.github.com/webhooks/#events 
 
 
-# wallas # in-development
-[![Version](https://img.shields.io/github/package-json/v/nombrekeff/wallas.svg)](https://github.com/nombrekeff/wallas)
-[![Build Status](https://travis-ci.com/nombrekeff/wallas.svg?branch=master)](https://travis-ci.com/nombrekeff/wallas)
-[![License](https://img.shields.io/github/license/nombrekeff/wallas.svg)]()
+# wallass # in-development
+[![Version](https://img.shields.io/github/package-json/v/nombrekeff/wallass.svg)](https://github.com/nombrekeff/wallass)
+[![Build Status](https://travis-ci.com/nombrekeff/wallass.svg?branch=master)](https://travis-ci.com/nombrekeff/wallass)
+[![License](https://img.shields.io/github/license/nombrekeff/wallass.svg)]()
 
 :octocat: A github automation utility, to help your develpoment process.
 
@@ -37,11 +37,11 @@ on_push:
   <!-- - [Posibilities](#posibilities) -->
 
 ## Description
-Hey there ✌️, let me explain a bit what **wallas** is,  
+Hey there ✌️, let me explain a bit what **wallass** is,  
 Basicaly it's a tool to help you automate github tasks, 
 like **autoclosing issues**, **autoasigning issues**, **automatic releases** to name a few. Check [this](#posibilities) list for a more in depth look at all the posibilities. 
 
-It's all configured from a **YAML** config file that lives at `.github/wallas.yml` in your project, where you will configure a series of [Events](#events) and [Actions](#actions).  
+It's all configured from a **YAML** config file that lives at `.github/wallass.yml` in your project, where you will configure a series of [Events](#events) and [Actions](#actions).  
 Here is a basic example: 
 ```yml
 # on create event check if ref is a tag
