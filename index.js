@@ -13,12 +13,12 @@ const main = async (robot) => {
   console.log("Up and runnning...");
   robot.on('push', async (context /**@type {probot.Context}*/) => {
     const payload = context.payload
-    const config = await getConfig(context, 'better-issues.yml')
+    const config = await getConfig(context, 'wallas.yml')
     robot.log(payload.commits)
 
     const settingsModified = payload.commits.find(commit => {
-      return commit.added.includes('.github/better-issues.yml') ||
-        commit.modified.includes('.github/better-issues.yml')
+      return commit.added.includes('.github/wallas.yml') ||
+        commit.modified.includes('.github/wallas.yml')
     })
     robot.log('Modified: ' + settingsModified)
 

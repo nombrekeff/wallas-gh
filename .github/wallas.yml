@@ -3,13 +3,10 @@
 # On push to branch dev, patch version then create a tag with -dev suffix, 
 # and create a label for that version
 on_push_to:
-  do: 
-    this: 
-      - version: patch dev
-      - create: tag
-      - create: label
-    if: 
-      - branch: test
+  - do: 
+      - create:
+          what: label
+          name: test-lanelnn 
 # When a tag is created create a label for that tag
 # on_tag:
 #   do:
