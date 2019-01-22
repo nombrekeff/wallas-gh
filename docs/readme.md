@@ -29,9 +29,8 @@ on_push:
 ## Index
   - [Description](#initial-description)
   - [Events](#events)
-  - [Actions](#actions)
   - [Matchers](#matchers)
-  - [Doers](#doers)
+  - [Actions](#actions)
   - [Functions](#functions)
   - [Variables](#variables)
   <!-- - [Posibilities](#posibilities) -->
