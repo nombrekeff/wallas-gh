@@ -27,7 +27,7 @@ on_push:
 ```
 
 ## Index
-  - [Description](#initial-description)
+  - [Description](#description)
   - [Events](#events)
   - [Matchers](#matchers)
   - [Actions](#actions)
@@ -58,7 +58,7 @@ on_create:
 
 ## Events
 Events are the main part of the automation cycle, and are the first thing you will define in your config file. 
-You can only define each event once in your config but each event can have multiple [actions](#actions).
+You can only define each event once in your config but each event can have multiple [actions](#actions). 
 
 | name             | description                                                                                                                                                                                                                |
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
