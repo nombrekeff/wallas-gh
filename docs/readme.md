@@ -10,20 +10,32 @@
 
 **Overview**
 ```yml
-sender: nombrekeff
+my_name: Wallas
+branches: [stable] 
+welcome_message: 
+  Hi there, thanks for leaving an issue, we will be checking and 
+  replying shortly!  > _Automatic Message Sent By_ **<my_name>**
 
-on_push:                   
-  - match:         
-      branch: master
-      sender: <sender>
+# Send a welcome message any time someone creates an issue
+on_issues:                   
+  - check:
+      status: opened
     do:
-      - create:
+      create:
+        what: comment
+        body: <welcome_message>
+
+# Close all issues wich have a label matching pushed tag
+on_push:                   
+  - check:         
+      branch:
+        one_of: <branches>
+      ref: tag
+    do:
+      - close:
           what: issue
-          title: A test issue
-          body: A test issue **by** @{payload.sender.login}
-          labels: 
-            - bug
-            - duplicate
+          label:
+            matching: closes-in:{payload.ref.tag}
 ```
 
 ## Index
@@ -46,7 +58,7 @@ Here is a basic example:
 # on create event check if ref is a tag
 # if so, create a new label for that tag
 on_create:
-  - match:
+  - check:
       ref: tag
     do: 
       - create: 
@@ -84,7 +96,7 @@ on_delete:
   ...
 on_issues:
   # List of matchers, see Matching further down
-  - match:
+  - check:
       status: opened
     do:
       - create:
@@ -97,7 +109,7 @@ Matchers are the way of evaluating properties within the event.
 Lets say we want to check if the pushed branch is **"release"**, for that we would do:
 ```yml
 on_push:
-  - match:
+  - check:
       branch: release
     do:
       # List of actions, see Actions further down for more info
