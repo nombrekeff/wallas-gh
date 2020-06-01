@@ -8,6 +8,10 @@
 
 :octocat: A github automation utility, to help your develpoment process.
 
+> ### NOTICE: 
+> I've stopped development because GH Actions where released and mostly makes Wallas Obsolete, I will leave the repo as is. Maybe somebody can take something out of it.
+
+
 **Overview**
 ```yml
 sender: nombrekeff
